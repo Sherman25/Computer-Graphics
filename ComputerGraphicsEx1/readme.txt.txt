@@ -1,5 +1,5 @@
 - Implementation of the "showSeams" method.
-When user calls the showSeams method, the outpur should be oiginal image
+When user calls the showSeams method, the output should be original image
 with red colored vertical seams. We defined seamsMap a 2 Dimesional array that keeps
 boolean variables. If pixel(i, j) was choosen in seam path, then the value in the
 seamsMap(i, j) will be True, otherwise False.
