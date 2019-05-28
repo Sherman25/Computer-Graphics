@@ -25,6 +25,48 @@ public class SkewedBox implements IRenderable {
 	public void render(GL2 gl) {
 		// TODO : Render the skewed-box using. 
 		//        Use the fields: length, height1, height2, depth1, depth2
+		gl.glNormal3d(1.0, 0.0, 0.0);
+        gl.glBegin(7);
+        gl.glVertex3d(this.length / 2.0, 0.0, this.depth2 / 2.0);
+        gl.glVertex3d(this.length / 2.0, 0.0, -this.depth2 / 2.0);
+        gl.glVertex3d(this.length / 2.0, this.height2, -this.depth2 / 2.0);
+        gl.glVertex3d(this.length / 2.0, this.height2, this.depth2 / 2.0);
+        gl.glEnd();
+        gl.glNormal3d(-1.0, 0.0, 0.0);
+        gl.glBegin(7);
+        gl.glVertex3d(-this.length / 2.0, 0.0, -this.depth1 / 2.0);
+        gl.glVertex3d(-this.length / 2.0, 0.0, this.depth1 / 2.0);
+        gl.glVertex3d(-this.length / 2.0, this.height1, this.depth1 / 2.0);
+        gl.glVertex3d(-this.length / 2.0, this.height1, -this.depth1 / 2.0);
+        gl.glEnd();
+        gl.glNormal3d(0.0, 1.0, 0.0);
+        gl.glBegin(7);
+        gl.glVertex3d(-this.length / 2.0, this.height1, this.depth1 / 2.0);
+        gl.glVertex3d(this.length / 2.0, this.height2, this.depth2 / 2.0);
+        gl.glVertex3d(this.length / 2.0, this.height2, -this.depth2 / 2.0);
+        gl.glVertex3d(-this.length / 2.0, this.height1, -this.depth1 / 2.0);
+        gl.glEnd();
+        gl.glNormal3d(0.0, -1.0, 0.0);
+        gl.glBegin(7);
+        gl.glVertex3d(-this.length / 2.0, 0.0, this.depth1 / 2.0);
+        gl.glVertex3d(-this.length / 2.0, 0.0, -this.depth1 / 2.0);
+        gl.glVertex3d(this.length / 2.0, 0.0, -this.depth2 / 2.0);
+        gl.glVertex3d(this.length / 2.0, 0.0, this.depth2 / 2.0);
+        gl.glEnd();
+        gl.glNormal3d(0.0, 0.0, 1.0);
+        gl.glBegin(7);
+        gl.glVertex3d(-this.length / 2.0, this.height1, this.depth1 / 2.0);
+        gl.glVertex3d(-this.length / 2.0, 0.0, this.depth1 / 2.0);
+        gl.glVertex3d(this.length / 2.0, 0.0, this.depth2 / 2.0);
+        gl.glVertex3d(this.length / 2.0, this.height2, this.depth2 / 2.0);
+        gl.glEnd();
+        gl.glNormal3d(0.0, 0.0, -1.0);
+        gl.glBegin(7);
+        gl.glVertex3d(-this.length / 2.0, 0.0, -this.depth1 / 2.0);
+        gl.glVertex3d(-this.length / 2.0, this.height1, -this.depth1 / 2.0);
+        gl.glVertex3d(this.length / 2.0, this.height2, -this.depth2 / 2.0);
+        gl.glVertex3d(this.length / 2.0, 0.0, -this.depth2 / 2.0);
+        gl.glEnd();
 	}
 
 	@Override
