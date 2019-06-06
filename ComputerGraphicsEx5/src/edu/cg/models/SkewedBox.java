@@ -25,47 +25,40 @@ public class SkewedBox implements IRenderable {
 	public void render(GL2 gl) {
 		// TODO : Render the skewed-box using. 
 		//        Use the fields: length, height1, height2, depth1, depth2
-		gl.glNormal3d(1.0, 0.0, 0.0);
-        gl.glBegin(7);
-        gl.glVertex3d(this.length / 2.0, 0.0, this.depth2 / 2.0);
-        gl.glVertex3d(this.length / 2.0, 0.0, -this.depth2 / 2.0);
-        gl.glVertex3d(this.length / 2.0, this.height2, -this.depth2 / 2.0);
-        gl.glVertex3d(this.length / 2.0, this.height2, this.depth2 / 2.0);
-        gl.glEnd();
-        gl.glNormal3d(-1.0, 0.0, 0.0);
-        gl.glBegin(7);
-        gl.glVertex3d(-this.length / 2.0, 0.0, -this.depth1 / 2.0);
-        gl.glVertex3d(-this.length / 2.0, 0.0, this.depth1 / 2.0);
-        gl.glVertex3d(-this.length / 2.0, this.height1, this.depth1 / 2.0);
-        gl.glVertex3d(-this.length / 2.0, this.height1, -this.depth1 / 2.0);
-        gl.glEnd();
-        gl.glNormal3d(0.0, 1.0, 0.0);
-        gl.glBegin(7);
-        gl.glVertex3d(-this.length / 2.0, this.height1, this.depth1 / 2.0);
-        gl.glVertex3d(this.length / 2.0, this.height2, this.depth2 / 2.0);
-        gl.glVertex3d(this.length / 2.0, this.height2, -this.depth2 / 2.0);
-        gl.glVertex3d(-this.length / 2.0, this.height1, -this.depth1 / 2.0);
-        gl.glEnd();
-        gl.glNormal3d(0.0, -1.0, 0.0);
-        gl.glBegin(7);
-        gl.glVertex3d(-this.length / 2.0, 0.0, this.depth1 / 2.0);
-        gl.glVertex3d(-this.length / 2.0, 0.0, -this.depth1 / 2.0);
-        gl.glVertex3d(this.length / 2.0, 0.0, -this.depth2 / 2.0);
-        gl.glVertex3d(this.length / 2.0, 0.0, this.depth2 / 2.0);
-        gl.glEnd();
-        gl.glNormal3d(0.0, 0.0, 1.0);
-        gl.glBegin(7);
-        gl.glVertex3d(-this.length / 2.0, this.height1, this.depth1 / 2.0);
-        gl.glVertex3d(-this.length / 2.0, 0.0, this.depth1 / 2.0);
-        gl.glVertex3d(this.length / 2.0, 0.0, this.depth2 / 2.0);
-        gl.glVertex3d(this.length / 2.0, this.height2, this.depth2 / 2.0);
-        gl.glEnd();
-        gl.glNormal3d(0.0, 0.0, -1.0);
-        gl.glBegin(7);
-        gl.glVertex3d(-this.length / 2.0, 0.0, -this.depth1 / 2.0);
-        gl.glVertex3d(-this.length / 2.0, this.height1, -this.depth1 / 2.0);
-        gl.glVertex3d(this.length / 2.0, this.height2, -this.depth2 / 2.0);
-        gl.glVertex3d(this.length / 2.0, 0.0, -this.depth2 / 2.0);
+		
+		// All elements are symmetric about the xy-plane, therefore we will render the half of the each part
+		//gl.glNormal3d(1, 0, 0);
+        gl.glBegin(GL2.GL_QUADS);
+        
+        gl.glVertex3d(-length / 2, 0, -depth1 / 2);
+        gl.glVertex3d(-length / 2, 0.0, depth1 / 2);
+        gl.glVertex3d(-length / 2, height1, depth1 / 2);
+        gl.glVertex3d(-length / 2, height1, -depth1 / 2);
+
+        gl.glVertex3d(length / 2, 0, depth2 / 2);
+        gl.glVertex3d(length / 2, 0, -depth2 / 2);
+        gl.glVertex3d(length / 2, height2, -depth2 / 2);
+        gl.glVertex3d(length / 2, height2, depth2 / 2);
+
+        gl.glVertex3d(-length / 2, height1, depth1 / 2);
+        gl.glVertex3d(length / 2, height2, depth2 / 2);
+        gl.glVertex3d(length / 2, height2, -depth2 / 2);
+        gl.glVertex3d(-length / 2, height1, -depth1 / 2);
+
+        gl.glVertex3d(-length / 2, height1, depth1 / 2);
+        gl.glVertex3d(-length / 2, 0, depth1 / 2);
+        gl.glVertex3d(length / 2, 0, depth2 / 2);
+        gl.glVertex3d(length / 2, height2, depth2 / 2);
+        
+        gl.glVertex3d(-length / 2, 0, depth1 / 2);
+        gl.glVertex3d(-length / 2, 0, -depth1 / 2);
+        gl.glVertex3d(length / 2, 0, -depth2 / 2);
+        gl.glVertex3d(length / 2, 0, depth2 / 2);
+        
+        gl.glVertex3d(-length / 2, 0, -depth1 / 2);
+        gl.glVertex3d(-length / 2, height1, -depth1 / 2);
+        gl.glVertex3d(length / 2, height2, -depth2 / 2);
+        gl.glVertex3d(length / 2, 0, -depth2 / 2);
         gl.glEnd();
 	}
 

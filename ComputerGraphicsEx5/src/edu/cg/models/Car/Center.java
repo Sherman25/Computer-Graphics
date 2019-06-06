@@ -7,7 +7,7 @@ import edu.cg.models.SkewedBox;
 
 public class Center implements IRenderable {
 	// TODO: The following elements are used to build the center of the body.
-	// bodyBase is the black base of the center.
+	// bodyBase is the Specification.C_BASE_LENGTHack base of the center.
 	private SkewedBox bodyBase = new SkewedBox(Specification.C_BASE_LENGTH, Specification.C_BASE_HEIGHT, Specification.C_BASE_HEIGHT, Specification.C_BASE_DEPTH, Specification.C_BASE_DEPTH);
 	// backSeatBox is the back seat of the center.
 	private SkewedBox backSeatBox = new SkewedBox(Specification.C_BACK_LENGTH,Specification.C_BACK_HEIGHT_1,Specification.C_BACK_HEIGHT_2,Specification.C_BACK_DEPTH,Specification.C_BACK_DEPTH);
@@ -20,6 +20,46 @@ public class Center implements IRenderable {
 	@Override
 	public void render(GL2 gl) {
 		// TODO: Render the center of the car.
+		
+		// Race chair
+		gl.glPushMatrix();
+		Materials.SetBlackMetalMaterial(gl);
+		gl.glTranslated(-Specification.C_FRONT_LENGTH, Specification.C_BASE_HEIGHT, 0);
+		backSeatBox.render(gl);
+		gl.glPopMatrix();
+		
+		// Creating the body base
+		gl.glPushMatrix();
+		Materials.SetBlackMetalMaterial(gl);
+		bodyBase.render(gl);
+		Materials.SetRedMetalMaterial(gl);
+		
+		// Creating the front part of the body
+		gl.glTranslated(-Specification.C_BASE_LENGTH / 2 + Specification.C_FRONT_LENGTH / 2, Specification.C_BASE_HEIGHT, 0); 
+		gl.glRotated(180, 0, 1, 0);
+		frontBox.render(gl);
+		gl.glPopMatrix();
+
+		// F1 Car's rear side
+		gl.glPushMatrix();
+		gl.glTranslated(Specification.C_BASE_LENGTH / 2 - Specification.C_FRONT_LENGTH / 2, Specification.C_BASE_HEIGHT, 0);
+		frontBox.render(gl);
+		gl.glPopMatrix();
+		
+		// F1 Car Sides
+		gl.glPushMatrix();
+		gl.glTranslated(0, Specification.C_BASE_HEIGHT, Specification.C_BASE_LENGTH / 2);
+		gl.glRotated(90, 0, 1, 0);
+		sideBox.render(gl);
+		gl.glPopMatrix();
+		
+		gl.glPushMatrix();
+		gl.glTranslated(0, Specification.C_BASE_HEIGHT, -Specification.C_BASE_LENGTH / 2);
+		gl.glRotated(-90, 0, 1, 0);
+		sideBox.render(gl);
+		gl.glPopMatrix();
+
+				
 	}
 
 	@Override

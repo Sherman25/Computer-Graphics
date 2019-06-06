@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Point;
 
 import com.jogamp.opengl.*;
+import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUquadric;
 import com.jogamp.opengl.util.FPSAnimator;
@@ -29,7 +30,9 @@ public class Viewer implements GLEventListener {
 	private double rotationMatrix[] = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
 	private Component glPanel;
 	private boolean isModelInitialized = false; // Whether model.init() was called.
-
+	private double thetaAngle;
+	private double phiAngle;
+	
 	public Viewer(Component glPanel) {
 		this.glPanel = glPanel;
 		zoom = 0;
@@ -37,12 +40,6 @@ public class Viewer implements GLEventListener {
 
 	@Override
 	public void display(GLAutoDrawable drawable) {
-		// TODO: This method is already implemented. But you should understand it very
-		// will.
-		// When this method is invoked, the model is basically render. Follow the
-		// different calls
-		// inside this method, since some of the methods (i.e setUpCamera), change the
-		// state of OpenGL.
 		GL2 gl = drawable.getGL().getGL2();
 		if (!isModelInitialized) {
 			initModel(gl);
@@ -83,7 +80,7 @@ public class Viewer implements GLEventListener {
 		// you should update the field rotationMatrix to the new rotation matrix - so
 		// that
 		// the rotation will be stored.
-
+		
 		// (Step 2) Define the zoom transformation. In this exercise, the zoom is
 		// performed by translating
 		// the whole scene (moving it away/closer to the camera). Use the field 'zoom'
@@ -92,6 +89,13 @@ public class Viewer implements GLEventListener {
 
 		// (Step 3) Combine the zoom and rotation transformation and define the final
 		// view transformation.
+
+		gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
+		gl.glLoadIdentity();
+		gl.glTranslated(0, 0, -zoom);
+		gl.glRotated(90, 0, 1, 0);
+		gl.glRotated(phiAngle, 0, 0, 1);
+		gl.glRotated(thetaAngle, 0, 1, 0);
 
 		// Note: You should reset the ModelView matrix to the identity between the
 		// steps.
@@ -102,6 +106,7 @@ public class Viewer implements GLEventListener {
 		// so we don't change it again on the next redraw.
 		mouseFrom = null;
 		mouseTo = null;
+		
 	}
 
 	private void setupLights(GL2 gl) {
@@ -110,7 +115,7 @@ public class Viewer implements GLEventListener {
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
-
+		
 	}
 
 	@Override
@@ -126,6 +131,7 @@ public class Viewer implements GLEventListener {
 	}
 
 	public void initModel(GL2 gl) {
+		
 		gl.glCullFace(GL2.GL_BACK); // Set Culling Face To Back Face
 		gl.glEnable(GL2.GL_CULL_FACE); // Enable back face culling
 
@@ -142,6 +148,14 @@ public class Viewer implements GLEventListener {
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
 		// TODO: Perform the perspective projection here as we learned in class.
+		canvasWidth = width;
+		canvasHeight = height;
+		double ratio = (double) height / width;
+		GL2 gl = drawable.getGL().getGL2();
+		gl.glMatrixMode(GL2.GL_PROJECTION);
+		gl.glLoadIdentity();
+		gl.glFrustum(-0.1, 0.1, -0.1 * ratio, 0.1 * ratio, 0.08, 500.0);
+		
 	}
 
 	/**
@@ -157,12 +171,18 @@ public class Viewer implements GLEventListener {
 		// The following lines store the rotation for use when next displaying the
 		// model.
 		// After you redraw the model, you should set these variables back to null.
-
+		setController(from, to);
 		if (null == mouseFrom)
 			mouseFrom = from;
 		mouseTo = to;
 		glPanel.repaint();
-
+		
+	}
+	
+	private void setController(Point from, Point to) {
+		thetaAngle = (thetaAngle + (to.x - from.x) * 0.5) % 360;
+		double minY = Math.min(phiAngle + (to.y - from.y) * 0.5, 90);
+		phiAngle = Math.max(-90, minY);
 	}
 
 	/**
